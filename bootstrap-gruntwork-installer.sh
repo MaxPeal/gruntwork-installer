@@ -52,9 +52,12 @@ function print_usage {
 }
 
 # http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script
-function command_exists {
-  local readonly cmd="$1"
-  type "$cmd" > /dev/null 2>&1
+#function command_exists {
+#  local readonly cmd="$1"
+#  type "$cmd" > /dev/null 2>&1
+#}
+function command_exists() {
+	command -v "$@" > /dev/null 2>&1
 }
 
 function download_url_to_file {
@@ -154,12 +157,33 @@ function get_os_suffix {
 }
 
 function sudo {
-  if [[ ! $(command -v sudo) ]]; then
-    #log_error "The binary '$name' is required by this script but is not installed or in the system's PATH."
-    # workaround for not installd sudo
-    $@
-  fi
-  sudo $@
+	user="$(id -un 2>/dev/null || true)"
+
+	sh_c='sh -c'
+	if [ "$user" != 'root' ]; then
+		if command_exists sudo; then
+			sh_c='sudo -E sh -c'
+		elif command_exists su; then
+			sh_c='su -c'
+		else
+			cat >&2 <<-'EOF'
+			Error: this installer needs the ability to run commands as root.
+			We are unable to find either "sudo" or "su" available to make this happen.
+			EOF
+			exit 1
+		fi
+	fi
+}
+
+function curl {
+	curl=''
+	if command_exists curl; then
+		curl='curl -sSL'
+	elif command_exists wget; then
+		curl='wget -qO-'
+	elif command_exists busybox && busybox --list-modules | grep -q wget; then
+		curl='busybox wget -qO-'
+	fi
 }
 
 function download_and_install {
