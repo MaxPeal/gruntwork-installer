@@ -37,18 +37,18 @@ function print_usage {
   echo
   echo "Options:"
   echo
-  echo -e "  --version\t\tRequired. The version of $GRUNTWORK_INSTALLER_SCRIPT_NAME to install (e.g. 0.0.3)."
+  echo -e "  --version\t\tRequired. The version of $GRUNTWORK_INSTALLER_SCRIPT_NAME to install (e.g. 0.0.25)."
   echo -e "  --fetch-version\tOptional. The version of fetch to install. Default: $DEFAULT_FETCH_VERSION."
   echo -e "  --user-data-owner\tOptional. The user who shown own the $USER_DATA_DIR folder. Default: (current user)."
   echo -e "  --download-url\tOptional. The URL from where to download $GRUNTWORK_INSTALLER_SCRIPT_NAME. Mostly used for automated tests. Default: $GRUNTWORK_INSTALLER_DOWNLOAD_URL_BASE/(version)/$GRUNTWORK_INSTALLER_SCRIPT_NAME."
   echo
   echo "Examples:"
   echo
-  echo "  Install version 0.0.3:"
+  echo "  Install version 0.0.25:"
   echo "    bootstrap-gruntwork-installer.sh --version 0.0.3"
   echo
-  echo "  One-liner to download this bootstrap script from GitHub and run it to install version 0.0.3:"
-  echo "    curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version 0.0.3"
+  echo "  One-liner to download this bootstrap script from GitHub and run it to install version 0.0.25:"
+  echo "    curl -Ls https://raw.githubusercontent.com/gruntwork-io/gruntwork-installer/master/bootstrap-gruntwork-installer.sh | bash /dev/stdin --version 0.0.25"
 }
 
 # http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script
