@@ -157,9 +157,9 @@ function get_os_suffix {
 }
 
 function sudo {
-	user="$(id -un 2>/dev/null || true)"
+	local user="$(id -un 2>/dev/null || true)"
 
-	sh_c='sh -c'
+	local sh_c='sh -c'
 	if [ "$user" != 'root' ]; then
 		if command_exists sudo; then
 			sh_c='sudo -E sh -c'
@@ -173,6 +173,7 @@ function sudo {
 			exit 1
 		fi
 	fi
+	$sh_c $@
 }
 
 
