@@ -134,16 +134,12 @@ function get_os_name_gox_format {
   local readonly name=$(get_os_name)
 
   if $(string_contains "$name" "mingw"); then
-    export suffix=".exe"
     echo "windows"
   elif $(string_contains "$name" "win32"); then
-    export suffix=".exe"
     echo "windows"
   elif $(string_contains "$name" "msys"); then
-    export suffix=".exe"
     echo "windows"
   elif $(string_contains "$name" "cygwin"); then
-    export suffix=".exe"
     echo "windows"
   else
     echo "$name"
@@ -157,6 +153,14 @@ function get_os_suffix {
   fi
 }
 
+function sudo {
+  if [[ ! $(command -v sudo) ]]; then
+    #log_error "The binary '$name' is required by this script but is not installed or in the system's PATH."
+    # workaround for not installd sudo
+    $@
+  fi
+  sudo $@
+}
 
 function download_and_install {
   local readonly url="$1"
