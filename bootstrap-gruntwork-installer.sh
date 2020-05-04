@@ -134,17 +134,29 @@ function get_os_name_gox_format {
   local readonly name=$(get_os_name)
 
   if $(string_contains "$name" "mingw"); then
+    export suffix=".exe"
     echo "windows"
   elif $(string_contains "$name" "win32"); then
+    export suffix=".exe"
     echo "windows"
   elif $(string_contains "$name" "msys"); then
+    export suffix=".exe"
     echo "windows"
   elif $(string_contains "$name" "cygwin"); then
+    export suffix=".exe"
     echo "windows"
   else
     echo "$name"
   fi
 }
+
+function get_os_suffix {
+    local readonly name=$(get_os_name_gox_format)
+  if $(string_contains "$name" "windows"); then
+    echo ".exe"
+  fi
+}
+
 
 function download_and_install {
   local readonly url="$1"
@@ -159,6 +171,7 @@ function install_fetch {
   local readonly version="$2"
 
   local readonly os=$(get_os_name_gox_format)
+  local readonly os_suffix=$(get_os_suffix)
   local readonly os_arch=$(get_os_arch_gox_format)
 
   if [[ -z "$os_arch" ]]; then
@@ -167,7 +180,7 @@ function install_fetch {
   fi
 
   echo "Installing fetch version $version to $install_path"
-  local readonly url="${FETCH_DOWNLOAD_URL_BASE}/${version}/fetch_${os}_${os_arch}"
+  local readonly url="${FETCH_DOWNLOAD_URL_BASE}/${version}/fetch_${os}_${os_arch}${os_suffix}"
   download_and_install "$url" "$install_path"
 }
 
