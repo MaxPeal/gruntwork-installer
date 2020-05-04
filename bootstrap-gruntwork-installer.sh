@@ -175,16 +175,6 @@ function sudo {
 	fi
 }
 
-function curl {
-	curl=''
-	if command_exists curl; then
-		curl='curl -sSL'
-	elif command_exists wget; then
-		curl='wget -qO-'
-	elif command_exists busybox && busybox --list-modules | grep -q wget; then
-		curl='busybox wget -qO-'
-	fi
-}
 
 function download_and_install {
   local readonly url="$1"
