@@ -130,6 +130,22 @@ function get_os_arch_gox_format {
   fi
 }
 
+function get_os_name_gox_format {
+  local readonly name=$(get_os_name)
+
+  if $(string_contains "$name" "mingw"); then
+    echo "windows"
+  elif $(string_contains "$name" "win32"); then
+    echo "windows"
+  elif $(string_contains "$name" "msys"); then
+    echo "windows"
+  elif $(string_contains "$name" "cygwin"); then
+    echo "windows"
+  else
+    echo "$name"
+  fi
+}
+
 function download_and_install {
   local readonly url="$1"
   local readonly install_path="$2"
@@ -142,7 +158,7 @@ function install_fetch {
   local readonly install_path="$1"
   local readonly version="$2"
 
-  local readonly os=$(get_os_name)
+  local readonly os=$(get_os_name_gox_format)
   local readonly os_arch=$(get_os_arch_gox_format)
 
   if [[ -z "$os_arch" ]]; then
